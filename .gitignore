@@ -1,0 +1,74 @@
+
+# ======================
+# Виртуальные окружения
+# ======================
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Имена по умолчанию для разных инструментов
+venv*/
+.venv*/
+
+# ======================
+# Кэш и временные файлы Python
+# ======================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+htmlcov/
+.pytest_cache/
+.hypothesis/
+.pyre/
+
+# ======================
+# IDE и редакторы
+# ======================
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# PyCharm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list/
+tramp
+.\#*
+
+# vim
+.*.swp
+.*.swo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
