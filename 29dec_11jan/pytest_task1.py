@@ -53,6 +53,7 @@ def test_longest_word():
     assert longest_word("Hello Python world") == "Python"
     assert longest_word("asd.dfdf ., qwerty,") == "qwerty"
     assert longest_word("aaaaa bbbbbb cccccccccc1") == "cccccccccc1"
+    assert longest_word("asd jkl") == "asd"
 
 
 def test_show_statistics(capfd):
@@ -71,7 +72,7 @@ def test_show_statistics(capfd):
     show_statistics(
         "asdf gfdgd 345", source="test"
     )  # В этом тест нет точки. Значит здесь 0 предложений.
-    output = capfd.readouterr().out
+    output = capfd.readouterr().out # Это специальная и удобная возможность Pytest выводить несколько строк, если будет не return, а много принтов 
 
     assert "Статистика по test:" in output
     assert "Количество слов: 3" in output
