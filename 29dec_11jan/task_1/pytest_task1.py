@@ -71,7 +71,7 @@ def test_show_statistics(capfd):
 
     show_statistics(
         "asdf gfdgd 345", source="test"
-    )  # В этом тест нет точки. Значит здесь 0 предложений.
+    )  # В этом тесте нет точки. Значит здесь 0 предложений.
     output = (
         capfd.readouterr().out
     )  # Это специальная и удобная возможность Pytest выводить несколько строк, если будет не return, а много принтов
