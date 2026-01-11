@@ -1,5 +1,9 @@
 import pytest
-from task_3.task_3 import HTTPRequest, HTTPRequestBuilder, ValidationDecorator, LoggingDecorator
+from task_3.task_3 import (
+    HTTPRequestBuilder,
+    ValidationDecorator,
+    LoggingDecorator,
+)
 
 
 def test_positive_right_answer():
@@ -13,8 +17,8 @@ def test_positive_right_answer():
         .set_timeout(10)
         .build()
     )
-    assert req.url  == "https://api.ipify.org/?format=json"
+    assert req.url == "https://api.ipify.org/?format=json"
     assert req.method == "GET"
     assert req.body == "{'name': 'Ivan'}"
     assert req.timeout == 10
-    assert req.headers == {"My_IP": "json"} 
+    assert req.headers == {"My_IP": "json"}

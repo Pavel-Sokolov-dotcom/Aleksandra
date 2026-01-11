@@ -1,28 +1,28 @@
-import logging
+import logging  # импортирую модуль логирования
 
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+)  # Настраиваю логирование, уровень INFO и формат: время, имя уровня и сообщение
 
 
-class HTTPRequest:
+class HTTPRequest:  # Создаю  класс для  запросов
     def __init__(
         self, url: str, method: str, headers=None, body: str = None, timeout=30
-    ):
-        self.url = url
-        self.method = method
-        self.headers = headers if headers is not None else {}
-        if body is None:
+    ):  # В экземпляр класса нужно будет передать url, method, headers, body, timeout
+        self.url = url  # Это адрес в формате строки
+        self.method = method  # Это метод GET, POST  и  т.д.
+        self.headers = headers if headers is not None else {}  # Заголовки в словарь
+        if body is None:  # Условие
             self.body = ""  # Если боди None, то будет равен пустой строке
         elif isinstance(body, str):
             self.body = body  # Если body является аргументом str, то будет равен тому, что передаст пользователь
         else:
-            raise TypeError("Body должен быть или строкой или None")
-        self.timeout = timeout
+            raise TypeError("Body должен быть или строкой или None")  # Вызов ошибки
+        self.timeout = timeout  # Передаётся таймаут
 
 
-class HTTPRequestBuilder:
+class HTTPRequestBuilder:  # Класс создание запроса
     def __init__(self):
         self._url = None
         self._method = None
@@ -30,21 +30,31 @@ class HTTPRequestBuilder:
         self._body = None
         self._timeout = 30
 
-    def set_url(self, url: str):
-        if not isinstance(url, str):
-            raise TypeError("URL должен быть строкой")
-        if not url.startswith(("http://", "https://")):
-            raise ValueError("URL должен начинаться с http:// или с https://")
-        self._url = url
-        return self
+    def set_url(self, url: str):  # Метод установки  url
+        if not isinstance(url, str):  # Если не строка
+            raise TypeError("URL должен быть строкой")  # Вызов ошибки
+        if not url.startswith(
+            ("http://", "https://")
+        ):  # Если начинается не с http://, https://
+            raise ValueError(
+                "URL должен начинаться с http:// или с https://"
+            )  # Вызов  ошибки
+        self._url = url  # Атрибут экземпляра ссылается на переданный адрес
+        return self  # Возвращаю сам экземпляр
 
-    def set_method(self, method: str):
-        if method.upper() not in {"GET", "POST", "PUT", "DELETE", "PATCH"}:
+    def set_method(self, method: str):  # Установка метода
+        if method.upper() not in {
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH",
+        }:  # Если нет во множестве вариантов
             raise ValueError(
                 "Вы указали не метод HTTP, нужно указать один из: POST, GET, PUT, DELETE, PATCH"
-            )
-        self._method = method.upper()
-        return self
+            )  #  Вызов  ошибки
+        self._method = method.upper()  # Ссылается  на один из прописанных методов
+        return self  # Возвращаю сам экземпляр
 
     def add_header(self, key: str, value: str):
         if isinstance(key, str) and isinstance(value, str):
@@ -150,4 +160,3 @@ request = (
     .set_timeout(10)
     .build()
 )
-
