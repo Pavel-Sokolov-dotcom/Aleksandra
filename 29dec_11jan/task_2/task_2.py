@@ -84,39 +84,41 @@ class HTTPRequestBuilder:  # Класс создание запроса
         ) # Возвращаю запрос со всеми переданными значениями
 
 
-class ValidationDecorator:
+class ValidationDecorator: # Это  класс  валидатор, ещё это класс. Он проверяет валидность переданных данных
     def __init__(self, builder):
-        self._builder = builder
+        self._builder = builder # Это будет сборщик в экземпляре класса
 
-    def set_url(self, url: str):
-        if not isinstance(url, str):
-            raise TypeError("Должна быть передана строка")
-        if not url.startswith(("http://", "https://")):
-            raise ValueError("URL должен начинаться с http:// или с https://")
-        return self._builder.set_url(url)
+    def set_url(self, url: str): # Метод для проверки адреса
+        if not isinstance(url, str): # Если не строка, то будет ошибка
+            raise TypeError("Должна быть передана строка") # Вызов ошибки
+        if not url.startswith(("http://", "https://")): # Если начинается не с того, что ожидается
+            raise ValueError("URL должен начинаться с http:// или с https://") # Вызов ошибки
+        return self._builder.set_url(url) # Возвращаю через декоратор адрес сайта
 
-    def set_method(self, method: str):
-        if method.upper() not in {"GET", "POST", "PUT", "DELETE", "PATCH"}:
+    def set_method(self, method: str): # Метод декоратора для проверки HTTP метода
+        if method.upper() not in {"GET", "POST", "PUT", "DELETE", "PATCH"}: # Если нет во множестве нужного методы будет ошибка
             raise ValueError(
                 "Вы указали не метод HTTP, нужно указать один из: POST, GET, PUT, DELETE, PATCH"
-            )
-        return self._builder.set_method(method)
+            ) # Вызов ошибки
+        return self._builder.set_method(method) # Возвращаю метод через декоратор
 
-    def add_header(self, key: str, value: str):
-        if not isinstance(key, str) or not isinstance(value, str):
-            raise TypeError("Ключ и значение должны быть строкой")
-        return self._builder.add_header(key, value)
+    def add_header(self, key: str, value: str): # Добавление хедера
+        if not isinstance(key, str) or not isinstance(value, str): # Проверка что переданные данные строкового типа
+            raise TypeError("Ключ и значение должны быть строкой") # Вызов ошибки
+        return self._builder.add_header(key, value) # Возвращаю хедер через  декоратор
 
-    def set_body(self, body: str | None):
-        if body is not None and not isinstance(body, str):
-            raise ValueError("Должна быть передана строка")
-        return self._builder.set_body(body)
+    def set_body(self, body: str | None): # Метод добавления боди
+        if body is not None and not isinstance(body, str): # Проверяю, что не пусто и передана именно строка
+            raise ValueError("Должна быть передана строка") # Вызов ошибки
+        return self._builder.set_body(body) # Возвращаю значение боди через декоратор валидатоор
 
-    def set_timeout(self, timeout: int | float):
-        return self._builder.set_timeout(timeout)
+    def set_timeout(self, timeout: int | float): # Метод установки таймаута. Принимает или int или float
+        if not isinstance(timeout, (int, float)): # Условие что или int или float
+            raise TypeError("Тайм аут должен быть или целым числом или числом с плавающей точкой") # или int или float
+        return self._builder.set_timeout(timeout) # Возвращаю значение боди через декоратор валидатор
 
-    def build(self):
-        return self._builder.build()
+    def build(self): # Метод сбора всех данных
+        return self._builder.build() # Возвращаю сборщик
 
 
 class LoggingDecorator:
@@ -145,18 +147,3 @@ class LoggingDecorator:
 
     def build(self):
         return self._builder.build()
-
-
-builder = HTTPRequestBuilder()
-
-decorator_builder = LoggingDecorator(ValidationDecorator(builder=builder))
-
-
-request = (
-    decorator_builder.set_url("https://api.ipify.org/?format=json")
-    .set_method("GET")
-    .add_header("My_IP", "json")
-    .set_body("{'name': 'Ivan'}")
-    .set_timeout(10)
-    .build()
-)
