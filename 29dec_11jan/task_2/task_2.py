@@ -120,30 +120,30 @@ class ValidationDecorator: # Это  класс  валидатор, ещё эт
     def build(self): # Метод сбора всех данных
         return self._builder.build() # Возвращаю сборщик
 
+# Декоратор логирования во всех методах берёт данные из класса валидатора
+class LoggingDecorator: # Класс для логирования. Сделал не через print
+    def __init__(self, builder): # Инициализация сборщика экземпляра класса
+        self._builder = builder # Ссылка на переданный сборщик
 
-class LoggingDecorator:
-    def __init__(self, builder):
-        self._builder = builder
+    def set_url(self, url: str): # Метод добавления адреса сайта 
+        logging.info(f"Настройки url: {url}") # Лог об  адресе, правильно ли его передали
+        return self._builder.set_url(url) # Возарщаю сборщик
 
-    def set_url(self, url: str):
-        logging.info(f"Настройки url: {url}")
-        return self._builder.set_url(url)
+    def set_method(self, method: str): # Метод установки метода
+        logging.info(f"Передан метод {method}") # Лог об успешной или не успешной передачи метода
+        return self._builder.set_method(method) # Возвращаю метод 
 
-    def set_method(self, method: str):
-        logging.info(f"Передан метод {method}")
-        return self._builder.set_method(method)
+    def add_header(self, key: str, value: str): # Метод добавления хедера
+        logging.info(f"Переданы значения: ключ {key}, значение {value}") # Выведет параметры
+        return self._builder.add_header(key, value) # Возвращаю переданные параметры
 
-    def add_header(self, key: str, value: str):
-        logging.info(f"Переданы значения: ключ {key}, значение {value}")
-        return self._builder.add_header(key, value)
+    def set_body(self, body): # Метод установки тела запроса
+        logging.info(f"Передано {body}") # Лог об body
+        return self._builder.set_body(body) # Возвращаю установленное тело запроса
 
-    def set_body(self, body):
-        logging.info(f"Передано {body}")
-        return self._builder.set_body(body)
+    def set_timeout(self, timeout): # Метод установки таймаута
+        logging.info(f"Установлен таймаут {timeout} секунд") # Лог об установлении таймаута
+        return self._builder.set_timeout(timeout) # Возвращаю значение таймаута
 
-    def set_timeout(self, timeout):
-        logging.info(f"Установлен таймаут {timeout} секунд")
-        return self._builder.set_timeout(timeout)
-
-    def build(self):
-        return self._builder.build()
+    def build(self): # Собираю весь запрос
+        return self._builder.build() # Возвращаю запрос целиком
