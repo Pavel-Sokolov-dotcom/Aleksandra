@@ -21,7 +21,9 @@ def reading_loog(filename):
     responce_time = []
     errors_codes = defaultdict(int)
 
-    with open(filename, "r", encoding="utf-8") as file: # TODO Написать коменты к каждой строчке
+    with open(
+        filename, "r", encoding="utf-8"
+    ) as file:  # TODO Написать коменты к каждой строчке
         for method in file.readlines():
             m = method.split()
             method_count[m[4].replace('"', "")] += 1
